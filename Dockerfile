@@ -7,21 +7,16 @@ COPY . /app
 RUN pip3 install pipenv
 EXPOSE 80
 
-# ENV NAME hello
-
-# ENV FLASK_APP=demos/hello/app.py
-
 COPY Pipfile Pipfile
 COPY Pipfile.lock Pipfile.lock
 
-
+# Really important to add --system cause docker image don't need virtualenv
+# Otherwise would get path error or flask import error
 RUN pipenv install --deploy --system --ignore-pipfile
-# ONBUILD RUN set -ex && pipenv install --deploy --system
+
 ENV FLASK_APP=/app/app.py
 
-# CMD ["pipenv","shell"]
 CMD ["flask","run","--host=0.0.0.0"]
-# CMD ["python3","-m","flask","run"]
 
 
 ENV http_proxy 0.0.0.0:80
