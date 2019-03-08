@@ -41,3 +41,13 @@ drop old tables and create new
 >>>Role.query.all() || filtry_by(role=).all()
 ```
 
+-------------------------------------------------------------
+
+### Migrate
+
+```
+sudo pipenv install flask-migrate
+flask db init
+flask db migrate -m "initial migration"
+flask db upgrate
+```
