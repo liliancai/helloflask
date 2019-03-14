@@ -9,7 +9,7 @@ class UserModelTestCase(unittest.TestCase):
 
     def test_password_getter(self):
         u = User(password = 'gizmo')
-        with self.assertRaise(AttributeError):
+        with self.assertRaises(AttributeError):
             u.password
 
     def test_password_verification(self):
