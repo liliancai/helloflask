@@ -1,5 +1,6 @@
 import os
-from app import create_app, db 
+from app import create_app, db
+# print(test)
 from app.models import User, Role
 from flask_migrate import Migrate
 
