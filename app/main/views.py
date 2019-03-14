@@ -1,7 +1,7 @@
 from flask import render_template, session, redirect, url_for
 from . import main
 from .forms import NameForm
-# from .. import db
+from .. import db
 from ..models import User
 
 @main.route('/', methods=['GET', 'POST'])
@@ -16,9 +16,11 @@ def index():
             db.session.add(user)
             db.session.commit()
             session['known'] = False
+            '''
             if app.config['FLASKY_ADMIN']:
                  send_email(app.config['FLASKY_ADMIN'],'New User',
 						'mail/new_user',user=user)
+            '''
         else:
             session['known'] = True
         session['name'] = input_name

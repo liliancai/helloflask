@@ -1,7 +1,4 @@
 from flask import make_response
-from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired
 from flask import request
 from flask import redirect
 import os
@@ -14,34 +11,6 @@ session = {}
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80)
 
-
-class NameForm(FlaskForm):
-    """
-        StringField handles <input type= "text">
-        SubmitFiled handles        type = "submit"
-    """
-    name = StringField('What is your name?', validators=[DataRequired()])
-    submit = SubmitField('submit')
-
-class Role(db.Model):
-    __tablename__ = 'roles'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), unique=True)
-
-    def __repr__(self):
-    	return '<Role %r>' % self.name
-    # backref attribute can be used for users access role instead using role_id
-    # Role User one-to-many 12s, uselist =False -> 121
-    users = db.relationship('User', backref='role')
-
-class User(db.Model):
-    __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), unique=True, index=True)
-
-    def __repr__(self):
-	       return '<User %r>' % self.username
-    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 
 def send_async_email(app, msg):
 	with app.app_context():
