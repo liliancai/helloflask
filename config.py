@@ -1,6 +1,9 @@
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
-##  print(basedir) # /helloflask 
+# dbdir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'databases')
+dbdir = os.path.join(basedir, 'databases')
+# print(dbdir)
+##  print(basedir) # /helloflask
 class Config:
 	SECRET_KEY = os.environ.get('SECRET_KEY') or 'am a secret string'
 	MAIL_SERVER = os.environ.get('MAIL_SERVER','smtp.googlemail.com')
@@ -21,16 +24,16 @@ class Config:
 class DevelopmentConfig(Config):
 	DEBUG = True
 	SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-		'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
+		'sqlite:///' + os.path.join(dbdir, 'data-dev.sqlite')
 
 class TestingConfig(Config):
 	TESTING = True
 	SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or \
-		'sqlite://' 
+		'sqlite://'
 
 class ProductionConfig(Config):
 	SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-		'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+		'sqlite:///' + os.path.join(dbdir, 'data.sqlite')
 
 config = {
 	'development': DevelopmentConfig,
@@ -39,6 +42,3 @@ config = {
 
 	'default' : DevelopmentConfig
 }
-
-
-
