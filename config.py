@@ -1,8 +1,8 @@
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
-
+##  print(basedir) # /helloflask 
 class Config:
-	secret_key = os.environ.get('SECRET_KEY') or 'am a secret string'
+	SECRET_KEY = os.environ.get('SECRET_KEY') or 'am a secret string'
 	MAIL_SERVER = os.environ.get('MAIL_SERVER','smtp.googlemail.com')
 	MAIL_PORT =int(os.environ.get('MAIL_PORT', 587))
 	MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'true').lower() in \
