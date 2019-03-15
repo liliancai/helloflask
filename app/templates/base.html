@@ -19,6 +19,7 @@
           <li><a href="{{ url_for('static', filename='500.html')}}">500</a></li>
           <li><a href="{{ url_for('static', filename='404.html')}}">404</a></li>
         </ul>
+
         <ul class="nav navbar-nav navbar-right">
             {% if current_user.is_authenticated %}
             <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
@@ -26,6 +27,9 @@
             <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
             {% endif %}
         </ul>
+
+
+
 
     </div>
 
