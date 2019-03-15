@@ -22,4 +22,4 @@ def login():
 
 @auth.route('/logout')
 def logout():
-    pass
+    return redirect(url_for('auth.login'))
