@@ -9,14 +9,14 @@ pipenv install python-dotenv
 ---------------------------------------------------
 deployed with docker
 
-demo: http://120.78.214.127/usr/name
+demo: http://120.78.214.127
 
 ----------------------------------------------------
 ### Create database tables
 
 ```
 flask shell
->>>from app import db
+>>>from app.models import db
 >>>db.drop_all() 
 >>>db.create_all()
 ```
