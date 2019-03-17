@@ -5,6 +5,9 @@ from flask_sqlalchemy import SQLAlchemy
 from config import config
 from flask_login import LoginManager
 
+# print(Mail.__name__)
+# print(__name__) #app
+# print(config.__name__) # dict object has not atribute __name__
 db = SQLAlchemy()
 bootstrap = Bootstrap()
 mail = Mail()
@@ -13,20 +16,21 @@ mail = Mail()
 
 login_manager = LoginManager()
 
+
 def create_app(config_name):
-	app=Flask(__name__)
-	app.config.from_object(config[config_name])
+    app = Flask(__name__)
+    app.config.from_object(config[config_name])
 
-	from .main import main as main_blueprint
-	app.register_blueprint(main_blueprint)
+    from .main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
 
-	from .auth import auth as auth_blueprint
-	app.register_blueprint(auth_blueprint, url_prefix='/auth')
-	config[config_name].init_app(app)
+    from .auth import auth as auth_blueprint
+    app.register_blueprint(auth_blueprint, url_prefix='/auth')
 
-	bootstrap.init_app(app)
-	mail.init_app(app)
-	db.init_app(app)
-	login_manager.init_app(app)
+    config[config_name].init_app(app)
+    bootstrap.init_app(app)
+    mail.init_app(app)
+    db.init_app(app)
+    login_manager.init_app(app)
 
-	return app
+    return app

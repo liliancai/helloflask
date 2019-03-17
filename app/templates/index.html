@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %} Oki,doki {% endblock %}
+{% block title %} Home {% endblock %}
 
 {% block content %}
 <div class="container">
@@ -11,13 +11,15 @@
       {% else %}
         <p>Nice to see you again!</p>
       {% endif %} -->
-    Hello,
     {% if current_user.is_authenticated %}
-        {{ current_user.username }}
+            <h1>Hello, {{ current_user.username|capitalize }}.</h1>
+            <p>Welcome back!</p>
     {% else %}
-        Stranger
-    {% endif %}!
+            <h1>Hello, Stranger.</h1>
+            <p>Nice to meet you, first time here?</p>
+            <p></p>
+            <p><a href="{{ url_for('auth.register') }}">Click here to regiser!</a></p>
+    {% endif %}
   </div>
-  {{ wtf.quick_form(form) }}
 </div>
 {% endblock %}

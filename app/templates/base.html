@@ -23,11 +23,12 @@
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           <li><a href="/">Home</a></li>
-          <li><a href="{{ url_for('static', filename='500.html')}}">500</a></li>
+          <!-- <li><a href="{{ url_for('main.index') }}">500</a></li> -->
           <li><a href="{{ url_for('static', filename='404.html')}}">404</a></li>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
+            <li><a href="{{ url_for('auth.register') }}">Register</a></li>
             {% if current_user.is_authenticated %}
             <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
             {% else %}

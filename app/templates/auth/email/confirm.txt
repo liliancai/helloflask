@@ -1,0 +1,7 @@
+Dear {{ user.username }}
+Welcome to helloflask!
+We need you to confirm your account, please click the link below:
+{{ url_for('auth.confirm', token=token, _external=True) }}
+Sincerely,
+helloflask
+PS: please don't reply this email

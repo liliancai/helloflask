@@ -1,3 +1,13 @@
+from . import main
+from flask import render_template
+
+
+@main.route('/')
+def index():
+    return render_template('index.html')
+
+
+'''
 from flask import render_template, session, redirect, url_for
 from . import main
 from .forms import NameForm
@@ -16,15 +26,16 @@ def index():
             db.session.add(user)
             db.session.commit()
             session['known'] = False
-            '''
+            """
             if app.config['FLASKY_ADMIN']:
                  send_email(app.config['FLASKY_ADMIN'],'New User',
-						'mail/new_user',user=user)
-            '''
+                 'mail/new_user',user=user)
+            """
         else:
             session['known'] = True
         session['name'] = input_name
         return redirect(url_for('.index'))
     return render_template('index.html',
-        form=form, name=session.get('name'),
-        known=session.get('known'))
+                           form=form, name=session.get('name'),
+                           known=session.get('known'))
+'''
