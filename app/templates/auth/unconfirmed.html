@@ -1,2 +1,9 @@
-Hello {{ current_user.username }}
-You haven't confirmed yet
+{% extends 'base.html' %}
+{% block title %}Confirm your account{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Hello {{ current_user.username }}</h1>
+    You haven't confirmed your account yet.
+    <p>Need a new link? <a href="{{ url_for('auth.resend') }}">Click here</a></p>
+</div>
+{% endblock %}
