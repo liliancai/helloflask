@@ -2,7 +2,8 @@ from . import db
 from flask_login import UserMixin, AnonymousUserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from flask import current_app
+from flask import current_app, request
+import hashlib
 from . import login_manager
 from flask_moment import datetime
 
@@ -94,6 +95,7 @@ class User(UserMixin, db.Model):
     location = db.Column(db.String(64))
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
+    avatar_hash = db.Column(db.String(32))
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -133,6 +135,24 @@ class User(UserMixin, db.Model):
         db.session.add(self)
         return True
 
+    def change_email(self, token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token.encode('utf-8'))
+        except:
+            return False
+        if data.get('change_email') != self.id:
+            return False
+        new_email = data.get('new_email')
+        if new_email is None:
+            return False
+        if self.query.filter_by(email=new_email).first() is not None:
+            return False
+        self.email = new_email
+        self.avatar_hash = self.gravatar_hash()
+        db.session.add(self)
+        return True
+
     def can(self, perm):
         return self.role is not None and self.role.has_permission(perm)
 
@@ -144,6 +164,18 @@ class User(UserMixin, db.Model):
         self.last_seen = datetime.utcnow()
         db.session.add(self)
         db.session.commit()
+
+    def gravatar_hash(self):
+        return hashlib.md5(self.email.lower().encode('utf-8')).hexdigest()
+
+    def gravatar(self, size=100, default='identicon', rating='g'):
+        if request.is_secure:
+            url = 'https://secure.gravatar.com/avatar'
+        else:
+            url = 'http://www.gravatar.com/avatar'
+        hash = self.avatar_hash or self.gravatar_hash()
+        return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
+            url=url, hash=hash, size=size, default=default, rating=rating)
 
 
 class AnonymousUser(AnonymousUserMixin):
