@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ user.username }}'s page{% endblock %}
+{% block content %}
+    <div class="container">
+        <h1>{{ user.username }}</h1>
+        <p>
+            {% if user.full_name %}{{ user.full_name }}{% endif %}
+            {% if user.location %}
+                From <a href="http://maps.google.com/?q={{ user.location }}">
+                    {{ user.location }}
+                </a>
+            {% endif %}
+        </p>
+        <p>
+            Member since{{ moment(user.member_since).format('L')}}.
+            Last seen{{ moment(user.last_seen).fromNow() }}
+        </p>
+    </div>
+{% endblock %}

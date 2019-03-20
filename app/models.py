@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
 from . import login_manager
+from flask_moment import datetime
 
 class Permission:
     FOLLOW = 1
@@ -22,6 +23,10 @@ class Role(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
     users = db.relationship('User', backref='role', lazy="dynamic")
+    # backref define a role in User, can use u.role to access Role object
+    # lazy means when to load data, select, join, subquery or dynamic
+    # dynamic: admin.users -> User.query.with_parent(admin)
+
     default = db.Column(db.Boolean, default=False, index=True)
     permissions = db.Column(db.Integer)
 
@@ -84,6 +89,12 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
 
+    about_me = db.Column(db.Text())
+    full_name = db.Column(db.String(64))
+    location = db.Column(db.String(64))
+    member_since = db.Column(db.DateTime(), default=datetime.utcnow)
+    last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
+
     def __repr__(self):
         return '<User %r>' % self.username
 
@@ -127,6 +138,12 @@ class User(UserMixin, db.Model):
 
     def is_adminstrator(self):
         return self.can(Permission.ADMIN)
+
+    def ping(self):
+        # Refresh the time of last_seen
+        self.last_seen = datetime.utcnow()
+        db.session.add(self)
+        db.session.commit()
 
 
 class AnonymousUser(AnonymousUserMixin):
