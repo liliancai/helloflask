@@ -14,7 +14,7 @@ COPY Pipfile.lock Pipfile.lock
 # Otherwise would get path error or flask import error
 RUN pipenv install --deploy --system --ignore-pipfile
 
-ENV FLASK_APP=/app/app.py
+ENV FLASK_APP=flasky.py
 
 CMD ["flask","run","--host=0.0.0.0"]
 
