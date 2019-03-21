@@ -21,5 +21,30 @@
             <p><a href="{{ url_for('auth.register') }}">Click here to regiser!</a></p>
     {% endif %}
   </div>
+
+    <div>
+            {% if current_user.can(Permission.WRITE) %}{{ wtf.quick_form(form) }}{% endif %}
+    </div>
+    <ul class="posts">
+        {% for post in posts %}
+        <li class="post">
+            <div class="post-thumbnail">
+                <a href="{{ url_for('.user', username=post.author.username) }}">
+                    <img src="{{ post.author.gravatar(size=40) }}" class="img-rounded profile-thumbnail">
+                    {{ post.author.username }}
+                </a>
+            </div>
+            <div class="post-content">
+                <div class="post-date">{{ moment(post.timestamp).fromNow() }}</div>
+                <div class="post-author">
+                    <a href="{{ url_for('.user', username=post.author.username) }}">
+                        {{ post.author.username }}
+                    </a>
+                </div>
+                <div class="post-body">{{ post.body }}</div>
+                </div>
+        </li>
+        {% endfor %}
+    </ul>
 </div>
 {% endblock %}

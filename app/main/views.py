@@ -2,12 +2,20 @@ from . import main
 from .. import db
 from flask import render_template, flash, redirect, url_for
 from flask_login import login_required, current_user
-from ..models import User
-from .forms import EditProfileForm
+from ..models import User, Post, Permission
+from .forms import EditProfileForm, PostForm
 
-@main.route('/')
+@main.route('/',methods=['GET','POST'])
 def index():
-    return render_template('index.html')
+    form = PostForm()
+    if current_user.can(Permission.WRITE) and form.validate_on_submit():
+        post = Post(body=form.body.data,
+                    author=current_user._get_current_object())
+        db.session.add(post)
+        db.session.commit()
+        return redirect(url_for('.index'))
+    posts = Post.query.order_by(Post.timestamp.desc()).all()
+    return render_template('index.html', form=form, posts=posts, Permission=Permission)
 
 @main.route('/usr/<username>')
 def user(username):

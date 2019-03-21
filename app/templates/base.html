@@ -1,8 +1,11 @@
 {% extends "bootstrap/base.html" %}
 {% block title %} Oki,doki {% endblock %}
-
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+{% endblock %}
 {% block navbar %}
-<div class="navbar navbar-inverse" role="navigation">
+<div class="navbar navbar-default" role="navigation">
   <div class="container">
     {% for message in get_flashed_messages() %}
     <div class="alert alert-warning">
@@ -38,12 +41,7 @@
             <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
             {% endif %}
         </ul>
-
-
-
-
     </div>
-
   </div>
 </div>
 {% endblock %}

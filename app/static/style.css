@@ -1,0 +1,40 @@
+/* navbar */
+.navbar {
+    background-color: white;
+    border-color: white;
+}
+
+.profile-thumbnail{
+    position: absolute;
+    padding: 0;
+}
+
+.profile-header{
+    margin-left: 200px;
+}
+
+div.post-thumbnail{
+    position: absolute;
+}
+
+div.post-date{
+    float: right;
+}
+
+div.post-author{
+    margin: 10px 50px;
+    font-weight: bold;
+}
+div.post-body{
+    margin: 0px 50px 10px;
+}
+ul.posts{
+    list-style-type: none !important;
+    margin: 16px 0px 0px 0px;
+    border-top: 1px solid #d7d3d3;
+    padding: 0;
+}
+li.post{
+    //margin: 20px 10px 10px 10px;
+    border-bottom: 1px solid #d7d3d3;
+}
