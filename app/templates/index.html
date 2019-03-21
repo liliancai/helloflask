@@ -2,7 +2,7 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% block title %} Home {% endblock %}
 
-{% block content %}
+{% block page_content %}
 <div class="container">
   <div class="page-header">
       <!-- <h1>Hello, {% if name %}{{ name|capitalize }}{% else %}Stranger{% endif %}!</h1>
@@ -12,7 +12,7 @@
         <p>Nice to see you again!</p>
       {% endif %} -->
     {% if current_user.is_authenticated %}
-            <h1>Hello, {{ current_user.username|capitalize }}.</h1>
+            <h1>Hello, {{ current_user.username|capitalize }}!</h1>
             <p>Welcome back!</p>
     {% else %}
             <h1>Hello, Stranger.</h1>

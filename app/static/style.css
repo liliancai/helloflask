@@ -1,9 +1,12 @@
 /* navbar */
-.navbar {
+.navbar-default {
     background-color: white;
     border-color: white;
 }
 
+a{
+    color: black !important;
+}
 .profile-thumbnail{
     position: absolute;
     padding: 0;
