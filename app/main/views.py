@@ -1,11 +1,13 @@
 from . import main
 from .. import db
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, request, redirect, url_for,\
+    current_app
 from flask_login import login_required, current_user
 from ..models import User, Post, Permission
 from .forms import EditProfileForm, PostForm
 
-@main.route('/',methods=['GET','POST'])
+
+@main.route('/', methods=['GET', 'POST'])
 def index():
     form = PostForm()
     if current_user.can(Permission.WRITE) and form.validate_on_submit():
@@ -14,13 +16,25 @@ def index():
         db.session.add(post)
         db.session.commit()
         return redirect(url_for('.index'))
-    posts = Post.query.order_by(Post.timestamp.desc()).all()
-    return render_template('index.html', form=form, posts=posts, Permission=Permission)
+    page = request.args.get('page', 1, type=int)
+    pagination = Post.query.order_by(Post.timestamp.desc()).paginate(
+        page, per_page=current_app.config['POSTS_PER_PAGE'], error_out=False)
+    posts = pagination.items
+    return render_template('index.html', form=form, posts=posts,
+                           Permission=Permission, pagination=pagination)
+    # Miguel's code don't pass permission, tried use {{super()}}, not work
+
 
 @main.route('/usr/<username>')
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
-    return render_template('user.html', user=user)
+    page = request.args.get('page', 1, type=int)
+    pagination = Post.query.order_by(Post.timestamp.desc()).paginate(
+        page, per_page=current_app.config['POSTS_PER_PAGE'], error_out=False)
+    posts = pagination.items
+    return render_template('user.html', user=user, posts=posts,
+                           pagination=pagination)
+
 
 @main.route('/edit_profile', methods=['GET', 'POST'])
 @login_required

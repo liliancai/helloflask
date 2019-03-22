@@ -1,8 +1,11 @@
 {% extends "bootstrap/base.html" %}
+{% import "_macros.html" as macro %}
 {% block title %} Oki,doki {% endblock %}
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Arimo|Electrolize" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oxygen+Mono" rel="stylesheet">
 {% endblock %}
 {% block navbar %}
 <div class="navbar navbar-default" role="navigation">
@@ -49,10 +52,14 @@
 {% block content %}
   <div class="container">
     {% block page_content %}{% endblock %}
-     <footer style="text-align:center;">Made by <a href="https://liliancai.github.io">lilian cai</a></footer>
+    <div class="pagination">
+        {{ macro.pagination_widget(pagination, '.index') }}
+    </div>
+     <footer>made by <a href="https://liliancai.github.io">Ye Cai</a></footer>
   </div>
-  {% block scripts %}
+ {% endblock %}
+
+ {% block scripts %}
       {{ super() }}
       {{ moment.include_moment() }}
   {% endblock %}
-{% endblock %}

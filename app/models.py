@@ -7,12 +7,14 @@ import hashlib
 from . import login_manager
 from flask_moment import datetime
 
+
 class Permission:
     FOLLOW = 1
     COMMENT = 2
     WRITE = 4
     MODERATE = 8
     ADMIN = 16
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -56,7 +58,6 @@ class Role(db.Model):
     def has_permission(self, perm):
         return self.permissions & perm == perm
 
-
     @staticmethod
     def basic_roles():
         # Hmmm basicly check if each basic role's exsistence
@@ -64,10 +65,10 @@ class Role(db.Model):
         roles = {
             'User': [Permission.FOLLOW, Permission.COMMENT, Permission.WRITE],
             'Moderator': [Permission.FOLLOW, Permission.COMMENT,
-                                Permission.WRITE, Permission.MODERATE],
+                          Permission.WRITE, Permission.MODERATE],
             'Administrator': [Permission.FOLLOW, Permission.COMMENT,
-                                Permission.WRITE, Permission.MODERATE,
-                                Permission.ADMIN],
+                              Permission.WRITE, Permission.MODERATE,
+                              Permission.ADMIN],
         }
         default_role = 'User'
         for r in roles:
@@ -80,6 +81,7 @@ class Role(db.Model):
             role.default = (role.name == default_role)
             db.session.add(role)
         db.session.commit()
+
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -103,7 +105,7 @@ class User(UserMixin, db.Model):
         return '<User %r>' % self.username
 
     def __init__(self, **kwargs):
-        super(User,self).__init__(**kwargs)
+        super(User, self).__init__(**kwargs)
         if self.role is None:
             if self.email == current_app.config['FLASKY_ADMIN']:
                 self.role = Role.query.filter_by(name='Administrator').first()
@@ -179,6 +181,7 @@ class User(UserMixin, db.Model):
         return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
             url=url, hash=hash, size=size, default=default, rating=rating)
 
+
 class Post(db.Model):
     __tablename__ = 'posts'
     id = db.Column(db.Integer, primary_key=True)
@@ -186,11 +189,13 @@ class Post(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
+
 class AnonymousUser(AnonymousUserMixin):
     def can(self, permissions):
         return False
 
     def is_adminstrator(self):
         return False
+
 
 login_manager.anonymous_user = AnonymousUser

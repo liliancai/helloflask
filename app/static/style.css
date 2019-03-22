@@ -1,11 +1,26 @@
 /* navbar */
+div>footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
 .navbar-default {
     background-color: white;
     border-color: white;
 }
-
+.pagination>.active>a,
+.pagination>.active>a:hover{
+    background-color: grey;
+    border: 1px solid grey;
+}
 a{
+    font-family:Electrolize;
     color: black !important;
+}
+div>ul>li>div>a{
+    font-family: Electrolize;
 }
 .profile-thumbnail{
     position: absolute;
@@ -14,6 +29,7 @@ a{
 
 .profile-header{
     margin-left: 200px;
+    font-family: Electrolize;
 }
 
 div.post-thumbnail{
@@ -36,6 +52,7 @@ ul.posts{
     margin: 16px 0px 0px 0px;
     border-top: 1px solid #d7d3d3;
     padding: 0;
+    font-family: Electrolize;
 }
 li.post{
     //margin: 20px 10px 10px 10px;
