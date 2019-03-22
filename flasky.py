@@ -5,7 +5,7 @@ from app.models import User, Role
 from flask_migrate import Migrate
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
-# print(os.environ.get('FLASK_APP'))
+# print(os.environ.get('FlASKY_ADMIN'))
 # print("Hi am flasky")
 migrate = Migrate(app, db)
 
