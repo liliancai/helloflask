@@ -16,7 +16,7 @@ RUN pipenv install --deploy --system --ignore-pipfile
 
 ENV FLASK_APP=flasky.py
 
-CMD ["flask","run","--host=0.0.0.0"]
+CMD ["flask","run","--host=0.0.0.0","--port=80"]
 
 
 ENV http_proxy 0.0.0.0:80
