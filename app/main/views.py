@@ -1,7 +1,7 @@
 from . import main
 from .. import db
 from flask import render_template, flash, request, redirect, url_for,\
-    current_app
+    current_app, abort
 from flask_login import login_required, current_user
 from ..models import User, Post, Permission
 from .forms import EditProfileForm, PostForm
@@ -52,3 +52,27 @@ def edit_profile():
     form.location.data = current_user.location
     form.about.data = current_user.about_me
     return render_template('edit_profile.html', form=form)
+
+
+@main.route('/post/<int:id>')
+def post(id):
+    post = Post.query.get_or_404(id)
+    return render_template('post.html', posts=[post])
+
+
+@main.route('/edit_post/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_post(id):
+    post = Post.query.get_or_404(id)
+    if post.author != current_user and\
+       not current_user.is_adminstrator():
+        abort(403)
+    form = PostForm()
+    if form.validate_on_submit():
+        post.body = form.body.data
+        db.session.add(post)
+        db.session.commit()
+        flash("You just edited this post")
+        return redirect(url_for('.index'))
+    form.body.data = post.body
+    return render_template('edit_post.html', post=post, form=form)

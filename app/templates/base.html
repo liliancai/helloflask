@@ -1,5 +1,4 @@
 {% extends "bootstrap/base.html" %}
-{% import "_macros.html" as macro %}
 {% block title %} Oki,doki {% endblock %}
 {% block head %}
     {{ super() }}
@@ -52,10 +51,7 @@
 {% block content %}
   <div class="container">
     {% block page_content %}{% endblock %}
-    <div class="pagination">
-        {{ macro.pagination_widget(pagination, '.index') }}
-    </div>
-     <footer>made by <a href="https://liliancai.github.io">Ye Cai</a></footer>
+    <footer>made by <a href="https://liliancai.github.io">Ye Cai</a></footer>
   </div>
  {% endblock %}
 

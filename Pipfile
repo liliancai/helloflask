@@ -15,6 +15,9 @@ flask-migrate = "*"
 flask-mail = "*"
 flask-login = "*"
 flask-moment = "*"
+flask-pagedown = "*"
+markdown = "*"
+bleach = "*"
 
 [requires]
 python_version = "3.6"
