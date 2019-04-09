@@ -21,6 +21,9 @@
     <div>
             {% if current_user.can(Permission.WRITE) %}{{ wtf.quick_form(form) }}{% endif %}
     </div>
+
+    <a href="{{ url_for('.show_all')}}" class="btn btn-default">All</a>
+    <a href="{{ url_for('.show_followed')}}" class="btn btn-secondary">Following</a>
     {% include '_posts.html' %}
 
 </div>
