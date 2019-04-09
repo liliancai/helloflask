@@ -33,7 +33,7 @@ def user(username):
         page, per_page=current_app.config['POSTS_PER_PAGE'], error_out=False)
     posts = pagination.items
     return render_template('user.html', user=user, posts=posts,
-                           pagination=pagination)
+                           pagination=pagination, Permission=Permission)
 
 
 @main.route('/edit_profile', methods=['GET', 'POST'])
@@ -76,3 +76,31 @@ def edit_post(id):
         return redirect(url_for('.index'))
     form.body.data = post.body
     return render_template('edit_post.html', post=post, form=form)
+
+
+@main.route('/follow/<username>')
+@login_required
+# @permission_required(Permission.FOLLOW)
+def follow(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash('User not exist')
+        return redirect(url_for('.index'))
+    current_user.follow(user)
+    db.session.commit()
+    flash('You have followed %s' % username)
+    return redirect(url_for('.user', username=username))
+
+
+@main.route('/unfollow/<username>')
+@login_required
+# @permission_required(Permission.FOLLOW)
+def unfollow(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None or not current_user.is_following(user):
+        flash('User not exist or unfollowed areadly')
+        return redirect(url_for('.index'))
+    current_user.unfollow(user)
+    db.session.commit()
+    flash('You have unfollowed %s' % username)
+    return redirect(url_for('.user', username=username))
