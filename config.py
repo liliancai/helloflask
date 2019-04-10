@@ -2,7 +2,7 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 # dbdir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'databases')
 dbdir = os.path.join(basedir, 'databases')
-# print(dbdir)
+print(dbdir)
 #  print(basedir) # /helloflask
 
 
@@ -46,7 +46,7 @@ class TestingConfig(Config):
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
          'sqlite:///' + os.path.join(dbdir, 'data.sqlite')
-
+    print(SQLALCHEMY_DATABASE_URI)
 
 config = {
     'development': DevelopmentConfig,
