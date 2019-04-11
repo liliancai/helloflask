@@ -3,14 +3,20 @@ Based on [the doggie book](https://learning.oreilly.com/library/view/flask-web-d
 ### Dependencies
 
 pipenv
+
 flask
+
 flask-bootstrap
+
 flask-sqlach"#¤!"#¤(I never remember the name...)
+
 ... and lots of tool, I'll put there later...
 
 ### Todo
 comments
+
 follower&following lists
+
 all the test cases
 
 -----------------All texts below is my nonsense-------
