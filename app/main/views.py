@@ -86,6 +86,18 @@ def edit_post(id):
     return render_template('edit_post.html', post=post, form=form)
 
 
+@main.route('/delete_post/<int:id>', methods=['GET'])
+@login_required
+def delete_post(id):
+    post = Post.query.get_or_404(id)
+    if post.author != current_user and not current_user.is_adminstrator():
+        abort(403)
+    db.session.delete(post)
+    db.session.commit()
+    flash("You deleted a post")
+    return redirect(url_for('.index'))
+
+
 @main.route('/follow/<username>')
 @login_required
 # @permission_required(Permission.FOLLOW)
@@ -120,6 +132,7 @@ def show_all():
     resp = make_response(redirect(url_for('.index')))
     resp.set_cookie('show_followed', '', max_age=30*24*60*60)
     return resp
+
 
 @main.route('/followed')
 @login_required

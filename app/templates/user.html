@@ -4,7 +4,7 @@
     <div class="container">
         <img class="img-rounded profile-thumbnail" src="{{ user.gravatar(size=128) }}">
         <div class="profile-header">
-            <h1>{{ user.username }}{% if user.is_adminstrator %}<p>(admin)</p>{% endif %}
+            <h1>{{ user.username }}{% if user.is_adminstrator() %}<p>(admin)</p>{% endif %}
             </h1>
             <p>
                 {% if user.full_name %}
@@ -37,7 +37,7 @@
                 <span class="label label-default"> Follows you</span>
             {% endif %}
         </div>
-    <h3>Posts by {{ user.usrename }}</h3>
+    <h3>Posts by {{ user.username }}</h3>
     {% include '_posts.html' %}
     </div>
 {% endblock %}

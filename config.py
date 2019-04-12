@@ -48,6 +48,7 @@ class ProductionConfig(Config):
          'sqlite:///' + os.path.join(dbdir, 'data.sqlite')
     print(SQLALCHEMY_DATABASE_URI)
 
+
 config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,

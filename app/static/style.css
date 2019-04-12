@@ -78,3 +78,15 @@ div.post_tabs {
     margin: 10px;
     border-bottom: 0;
 }
+div.whatsinyourmind{
+    //height: 100px;
+}
+div.flask-pagedown-preview {
+    margin: 10px 0px 10px 0px;
+    border: 1px solid #e0e0e0;
+    padding: 4px;
+}
+div.flask-pagedown-input{
+    height: 200px;
+    border: 1px solid red;
+}

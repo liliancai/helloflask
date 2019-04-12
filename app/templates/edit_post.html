@@ -1,8 +1,20 @@
 {% extends 'base.html' %}
 {% import 'bootstrap/wtf.html' as wtf %}
 {% block title%} Edit Post {% endblock %}
-{% block content %}
-    <div class="container">
+{% block page_content %}
+    <!-- <div class="whatsinyourmind">
         {{ wtf.quick_form(form) }}
-    </div>
+    </div> -->
+    <!-- form don't need action! -->
+    <form method="post">
+        {{ form.csrf_token}}
+         {{form.body.label}}
+         {{form.body(rows=10, class="form-control")}}
+         {{form.submit(cols=10, class='btn btn-default')}}
+    </form>
+
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+{{ pagedown.include_pagedown() }}
 {% endblock %}
