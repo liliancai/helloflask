@@ -1,5 +1,9 @@
 Based on [the doggie book](https://learning.oreilly.com/library/view/flask-web-development/9781491991725/)
 
+### Demo
+
+[demo](http://120.78.214.127)
+
 ### Dependencies
 
 pipenv
@@ -32,7 +36,6 @@ pipenv install python-dotenv
 ---------------------------------------------------
 deployed with docker
 
-[demo](http://120.78.214.127)
 
 ----------------------------------------------------
 ### Create database tables
