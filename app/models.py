@@ -96,11 +96,11 @@ class Follow(db.Model):
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), unique=True, index=True)
-    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
-    email = db.Column(db.String(64), unique=True, index=True)
-    password_hash = db.Column(db.String(128))
+    id = db.column(db.integer, primary_key=true)
+    username = db.column(db.string(64), unique=true, index=true)
+    role_id = db.column(db.integer, db.foreignkey('roles.id'))
+    email = db.column(db.string(64), unique=true, index=true)
+    password_hash = db.column(db.string(128))
     confirmed = db.Column(db.Boolean, default=False)
 
     about_me = db.Column(db.Text())
@@ -258,8 +258,31 @@ class Post(db.Model):
             markdown(value, output_format='html'),
             tags=allowed_tags, strip=True))
 
+    comments = db.relationship('Comment', backref='author', lazy='dynamic')
+
 
 db.event.listen(Post.body, 'set', Post.on_changed_body)
+
+
+class Comment(db.Model):
+    __tablename__ = 'comments'
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text)
+    body_html = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+
+    @staticmethod
+    def on_changed_body(target, value, oldvalue, initiator):
+        allowed_tags = ['a', 'abbr', 'acronym', 'b', 'code', 'em', 'i',
+                        'strong']
+        target.body_html = bleach.linkify(bleach.clean(
+            markdown(value, output_format='html'),
+            tags=allowed_tags, strip=True))
+
+
+db.event.listen(Comment.body, 'set', Comment.on_changed_body)
 
 
 class AnonymousUser(AnonymousUserMixin):
@@ -268,6 +291,3 @@ class AnonymousUser(AnonymousUserMixin):
 
     def is_adminstrator(self):
         return False
-
-
-login_manager.anonymous_user = AnonymousUser

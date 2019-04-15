@@ -18,11 +18,12 @@ div>footer {
     border: 1px solid grey;
 }
 a{
-    /* font-family:Electrolize; */
+    /* font-family:"Times New Roman", Times, serif; */
+    /* font-family: 'Courier', monospace; */
+    font-weight: bold;
     color: black !important;
 }
 div>ul>li>div>a{
-    /* font-family: Electrolize; */
 }
 .profile-thumbnail{
     position: absolute;
@@ -54,7 +55,7 @@ ul.posts{
     margin: 16px 10px 0px 10px;
     //border-top: 1px solid pink;//#d7d3d3;
     padding: 0;
-    /* font-family: Electrolize; */
+    // change the font family from all the post body
     /* width: 20cm; */
 }
 li.post{
