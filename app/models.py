@@ -111,6 +111,7 @@ class User(UserMixin, db.Model):
     avatar_hash = db.Column(db.String(32))
 
     commnets = db.relationship('Comment', backref='author', lazy='dynamic')
+    posts = db.relationship('Post', backref='author', lazy='dynamic')
 
     def __repr__(self):
         return '<User %r>' % self.username
