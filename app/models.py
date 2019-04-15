@@ -96,11 +96,11 @@ class Follow(db.Model):
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
-    id = db.column(db.integer, primary_key=true)
-    username = db.column(db.string(64), unique=true, index=true)
-    role_id = db.column(db.integer, db.foreignkey('roles.id'))
-    email = db.column(db.string(64), unique=true, index=true)
-    password_hash = db.column(db.string(128))
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), unique=True, index=True)
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    email = db.Column(db.String(64), unique=True, index=True)
+    password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
 
     about_me = db.Column(db.Text())
@@ -110,9 +110,7 @@ class User(UserMixin, db.Model):
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
     avatar_hash = db.Column(db.String(32))
 
-    posts = db.relationship('Post', backref='author', lazy='dynamic')
-
-    comments = db.relationship('Comment', backref='author', lazy='dynamic')
+    commnets = db.relationship('Comment', backref='author', lazy='dynamic')
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -260,7 +258,7 @@ class Post(db.Model):
             markdown(value, output_format='html'),
             tags=allowed_tags, strip=True))
 
-    comments = db.relationship('Comment', backref='author', lazy='dynamic')
+    comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
 
 db.event.listen(Post.body, 'set', Post.on_changed_body)
