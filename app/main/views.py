@@ -3,8 +3,8 @@ from .. import db
 from flask import render_template, flash, request, redirect, url_for,\
     current_app, abort, make_response
 from flask_login import login_required, current_user
-from ..models import User, Post, Permission
-from .forms import EditProfileForm, PostForm
+from ..models import User, Post, Permission, Comment
+from .forms import EditProfileForm, PostForm, CommentForm
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -65,7 +65,25 @@ def edit_profile():
 @main.route('/post/<int:id>')
 def post(id):
     post = Post.query.get_or_404(id)
-    return render_template('post.html', posts=[post])
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = Comment(body=form.body.data,
+                          post=post,
+                          author=current_user._get_current_object())
+        db.session.add(comment)
+        db.session.commit()
+        flash('Your just left a commnet')
+        return redirect(url_for('.post', id=post.id, page=1))
+    page = request.args.get('page', 1, type=int)
+    if page == -1:
+        page = (post.comments.count() - 1) // \
+               current_app.config['FLASKY_COMMENTS_PER_PAGE'] + 1
+    pagination = post.comments.order_by(Comment.timestamp.asc()).paginate(
+                 page, per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'],
+                 error_out=False)
+    comments = pagination.items
+    return render_template('post.html', posts=[post], form=form,
+                           comments=comments, pagination=pagination)
 
 
 @main.route('/edit_post/<int:id>', methods=['GET', 'POST'])

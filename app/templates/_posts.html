@@ -39,6 +39,11 @@
             </div>
         {% endif %}
 
+        <a href="{{ url_for('.post', id=post.id) }}"#comments>
+            <span class='label label-primary'>
+                {{ post.comments.count()}} Comments
+            </span>
+        </a>
         {% if posts|length > 1 %}
             <div class="post-footer" style="text-align:right">
                     <a href="{{ url_for('.post', id=post.id) }}">Readmore</a>
