@@ -1,6 +1,6 @@
 FROM python:3.6-slim
 
-RUN echo 'we are running some # of cool things'
+# RUN echo 'we are running some # of cool things'
 WORKDIR /app
 COPY . /app
 
@@ -16,6 +16,9 @@ RUN pipenv install --deploy --system --ignore-pipfile
 
 ENV FLASK_APP=flasky.py
 
+# CMD ["flask", "db", "upgrade"]
+# RUN flask db upgrade
+# Not working above
 CMD ["flask","run","--host=0.0.0.0","--port=80"]
 
 
