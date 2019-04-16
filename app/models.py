@@ -242,6 +242,17 @@ class User(UserMixin, db.Model):
         return Post.query.join(Follow,  Follow.followed_id == Post.author_id).filter(Follow.follower_id == self.id)
 
 
+class AnonymousUser(AnonymousUserMixin):
+    def can(self, permissions):
+        return False
+
+    def is_adminstrator(self):
+        return False
+
+
+login_manager.anonymous_user = AnonymousUser
+
+
 class Post(db.Model):
     __tablename__ = 'posts'
     id = db.Column(db.Integer, primary_key=True)
@@ -284,11 +295,3 @@ class Comment(db.Model):
 
 
 db.event.listen(Comment.body, 'set', Comment.on_changed_body)
-
-
-class AnonymousUser(AnonymousUserMixin):
-    def can(self, permissions):
-        return False
-
-    def is_adminstrator(self):
-        return False

@@ -5,6 +5,7 @@ from flask import render_template, flash, request, redirect, url_for,\
 from flask_login import login_required, current_user
 from ..models import User, Post, Permission, Comment
 from .forms import EditProfileForm, PostForm, CommentForm
+# from ..decorators import admin_required, permission_required
 
 
 @main.route('/', methods=['GET', 'POST'])

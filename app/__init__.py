@@ -19,6 +19,7 @@ pagedown = PageDown()
 # cause import .main above db, and .main has # BUG:
 
 login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
 
 
 def create_app(config_name):
