@@ -11,10 +11,23 @@
                 {{ moment(comment.timestamp).fromNow() }}
             </div>
             <div class="post-author">
+                {#{% if class %}
+                {%%}
+                {%%} #}
                 <a href="{{ url_for('.user', username=comment.author.username) }}">
                     {{ comment.author.username }}
                 </a>
-
+                {% if current_user.is_adminstrator()%}
+                    {% if comment.disable %}
+                        <div class="btn">
+                            <a href="{{ url_for('.enable', id=comment.id) }}">enable</a>
+                        </div>
+                    {% else %}
+                        <div class="btn">
+                            <a href="{{ url_for('.disable', id=comment.id) }}">disable</a>
+                        </div>
+                    {% endif %}
+                {% endif %}
             </div>
             <div class="post-body">
                 {% if comment.body_html %}
@@ -23,6 +36,8 @@
                     {{ comment.body}}
                 {% endif %}
             </div>
+
+
     </li>
     {% endfor %}
 </ul>

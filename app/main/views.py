@@ -195,3 +195,29 @@ def followers(username):
     return render_template('followship.html', user=user, pagination=pagination,
                            title='Followers of', followship=followship,
                            endpoint='.followers')
+
+
+@main.route('/disable/<int:id>')
+@login_required
+def disable(id):
+    comment=Comment.query.filter_by(id=id).first()
+    if comment is None:
+        flash('Comment not exist')
+        return redirect(url_for('.post', id=post.id))
+    comment.disable= True
+    db.session.add(comment)
+    db.session.commit()
+    return redirect(url_for('.post', id=post.id))
+
+
+@main.route('/enable/<int:id>')
+@login_required
+def enable(id):
+    comment=Comment.query.filter_by(id=id).first()
+    if comment is None:
+        flash('Comment not exist')
+        return redirect(url_for('.post', id=post.id))
+    comment.disable= False
+    db.session.add(comment)
+    db.session.commit()
+    return redirect(url_for('.post', id=post.id))
