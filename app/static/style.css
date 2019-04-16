@@ -61,7 +61,7 @@ ul.posts{
 
 
 }
-@media (max-width: 400px) {
+@media (max-width: 414px) {
   ul.posts{
       margin: 0;
   }

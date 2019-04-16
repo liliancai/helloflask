@@ -144,7 +144,7 @@ def unfollow(username):
     flash('You have unfollowed %s' % username)
     return redirect(url_for('.user', username=username))
 
-
+# show all user's posts, sect show_followed ''
 @main.route('/all')
 @login_required
 def show_all():
@@ -152,10 +152,46 @@ def show_all():
     resp.set_cookie('show_followed', '', max_age=30*24*60*60)
     return resp
 
-
+# displaying all followed user's post
 @main.route('/followed')
 @login_required
 def show_followed():
     resp = make_response(redirect(url_for('.index')))
     resp.set_cookie('show_followed', '1', max_age=30*24*60*60)
     return resp
+
+# followed or following users
+@main.route('/following/<username>')
+@login_required
+def following(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash('User not exist.')
+        return redirect(url_for('.index'))
+    page = request.args.get('page', 1, type=int)
+    pagination = user.followed.paginate(
+             page, per_page=current_app.config['FLASKY_FOLLOW_PER_PAGE'],
+             error_out=False)
+    followship = [{'user': each.followed, 'timestamp': each.timestamp}
+                  for each in pagination.items]
+    return render_template('followship.html', user=user, pagination=pagination,
+                           title='Following by', followship=followship,
+                           endpoint='.following')
+
+
+@main.route('/followers/<username>')
+@login_required
+def followers(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash('User not exist.')
+        return redirect(url_for('.index'))
+    page = request.args.get('page', 1, type=int)
+    pagination = user.followers.paginate(
+             page, per_page=current_app.config['FLASKY_FOLLOW_PER_PAGE'],
+             error_out=False)
+    followship = [{'user': each.follower, 'timestamp': each.timestamp}
+                  for each in pagination.items]
+    return render_template('followship.html', user=user, pagination=pagination,
+                           title='Followers of', followship=followship,
+                           endpoint='.followers')
