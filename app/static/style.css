@@ -46,6 +46,7 @@ div.post-date{
 div.post-author{
     margin: 10px 50px;
     font-weight: bold;
+    font-size: 17px;
 }
 div.post-body{
     margin: 0px 50px 10px;
@@ -57,6 +58,16 @@ ul.posts{
     padding: 0;
     // change the font family from all the post body
     /* width: 20cm; */
+
+
+}
+@media (max-width: 400px) {
+  ul.posts{
+      margin: 0;
+  }
+  div.post-body{
+      margin: 30px 0 0 0;
+  }
 }
 li.post{
     //margin: 20px 10px 10px 10px;
