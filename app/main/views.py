@@ -197,27 +197,42 @@ def followers(username):
                            endpoint='.followers')
 
 
+@main.route('/moderate')
+def moderate():
+    page = request.args.get('page', 1, type=int)
+    allcomments = Comment.query.filter()
+    if page == -1:
+        page = (allcomments.count() - 1) // \
+               current_app.config['FLASKY_COMMENTS_PER_PAGE'] + 1
+    pagination = allcomments.order_by(Comment.timestamp.asc()).paginate(
+                 page, per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'],
+                 error_out=False)
+    comments = pagination.items
+    return render_template('moderate.html', endpoint='.moderate', page=page,
+                           comments=comments, pagination=pagination)
+
+
 @main.route('/disable/<int:id>')
 @login_required
 def disable(id):
-    comment=Comment.query.filter_by(id=id).first()
+    comment = Comment.query.get_or_404(id)
     if comment is None:
         flash('Comment not exist')
-        return redirect(url_for('.post', id=post.id))
-    comment.disable= True
+        return redirect(url_for('.moderate'))
+    comment.disabled = True
     db.session.add(comment)
     db.session.commit()
-    return redirect(url_for('.post', id=post.id))
+    return redirect(url_for('.moderate', page=request.args.get('page', 1, type=int)))
 
 
 @main.route('/enable/<int:id>')
 @login_required
 def enable(id):
-    comment=Comment.query.filter_by(id=id).first()
+    comment = Comment.query.filter_by(id=id).first()
     if comment is None:
         flash('Comment not exist')
-        return redirect(url_for('.post', id=post.id))
-    comment.disable= False
+        return redirect(url_for('.moderate'))
+    comment.disabled = False
     db.session.add(comment)
     db.session.commit()
-    return redirect(url_for('.post', id=post.id))
+    return redirect(url_for('.moderate',page=request.args.get('page', 1, type=int)))

@@ -18,13 +18,13 @@
                     {{ comment.author.username }}
                 </a>
                 {% if current_user.is_adminstrator()%}
-                    {% if comment.disable %}
-                        <div class="btn">
-                            <a href="{{ url_for('.enable', id=comment.id) }}">enable</a>
+                    {% if comment.disabled %}
+                        <div class="btn  btn-danger">
+                            <a href="{{ url_for('.enable', id=comment.id, page=page) }}">enable</a>
                         </div>
                     {% else %}
                         <div class="btn">
-                            <a href="{{ url_for('.disable', id=comment.id) }}">disable</a>
+                            <a href="{{ url_for('.disable', id=comment.id, page=page) }}">disable</a>
                         </div>
                     {% endif %}
                 {% endif %}
