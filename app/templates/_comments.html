@@ -30,11 +30,17 @@
                 {% endif %}
             </div>
             <div class="post-body">
+                {% if comment.disabled %}
+                <p>------this comment disbaled-------</p>
+                {% else %}
                 {% if comment.body_html %}
                     {{ comment.body_html | safe }}
                 {% else %}
                     {{ comment.body}}
                 {% endif %}
+                {% endif %}
+
+
             </div>
 
 
