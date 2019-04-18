@@ -14,6 +14,8 @@ flask
 
 flask-bootstrap
 
+... and lots of tool, I'll put there late
+
 ### Install
 
 Install pipenv at first,
@@ -24,7 +26,7 @@ create a virtual environment
     flask run
 
 
-... and lots of tool, I'll put there late
+
 
 ### Todo
 <s>comments</s>
@@ -32,6 +34,8 @@ create a virtual environment
 <s>follower&following lists</s>
 
 all the test case
+
+a better email html page
 
 
 -----------------All texts below is my nonsense-------
