@@ -6,22 +6,33 @@ Based on [the doggie book](https://learning.oreilly.com/library/view/flask-web-d
 
 ### Dependencies
 
+python3
+
 pipenv
 
 flask
 
 flask-bootstrap
 
-flask-sqlach"#¤!"#¤(I never remember the name...)
+### Install
 
-... and lots of tool, I'll put there later...
+Install pipenv at first,
+create a virtual environment
+
+    pipenv install
+    pipenv shell
+    flask run
+
+
+... and lots of tool, I'll put there late
 
 ### Todo
-comments
+<s>comments</s>
 
-follower&following lists
+<s>follower&following lists</s>
 
-all the test cases
+all the test case
+
 
 -----------------All texts below is my nonsense-------
 
